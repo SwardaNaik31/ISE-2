@@ -5,13 +5,8 @@ pipeline {
         timestamps()
     }
 
-    environment {
-        IMAGE_NAME = 'student-app'
-        CONTAINER_NAME = 'student-app-container'
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
                 checkout scm
             }
@@ -35,7 +30,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Container') {
+        stage('Deploy Application') {
             steps {
                 bat '''
                 docker rm -f student-app-container 2>NUL
@@ -44,7 +39,7 @@ pipeline {
             }
         }
 
-        stage('Verify Deployment') {
+        stage('Health Check') {
             steps {
                 bat 'curl.exe -f http://localhost:5000/health'
             }

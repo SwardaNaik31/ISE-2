@@ -1,13 +1,20 @@
 from app import app
 
-def test_home():
+def test_home_page():
     client = app.test_client()
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Welcome to My CI/CD Application" in response.data
+    assert b"Student Information System" in response.data
 
-def test_health():
+def test_health_endpoint():
     client = app.test_client()
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json["status"] == "healthy"
+
+def test_student_api():
+    client = app.test_client()
+    response = client.get("/api/student")
+    assert response.status_code == 200
+    assert "name" in response.json
+    assert "roll_number" in response.json
